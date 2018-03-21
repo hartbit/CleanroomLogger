@@ -26,7 +26,7 @@
 		3B475D301DB47B8A0047D397 /* FieldBasedLogFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475D091DB47B8A0047D397 /* FieldBasedLogFormatter.swift */; };
 		3B475D311DB47B8A0047D397 /* FileLogRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475D0A1DB47B8A0047D397 /* FileLogRecorder.swift */; };
 		3B475D321DB47B8A0047D397 /* LiteralLogFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475D0B1DB47B8A0047D397 /* LiteralLogFormatter.swift */; };
-		3B475D331DB47B8A0047D397 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475D0C1DB47B8A0047D397 /* Log.swift */; };
+		3B475D331DB47B8A0047D397 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475D0C1DB47B8A0047D397 /* Logger.swift */; };
 		3B475D341DB47B8A0047D397 /* LogChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475D0D1DB47B8A0047D397 /* LogChannel.swift */; };
 		3B475D351DB47B8A0047D397 /* LogConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475D0E1DB47B8A0047D397 /* LogConfiguration.swift */; };
 		3B475D361DB47B8A0047D397 /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475D0F1DB47B8A0047D397 /* LogEntry.swift */; };
@@ -88,7 +88,7 @@
 		3B475D091DB47B8A0047D397 /* FieldBasedLogFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldBasedLogFormatter.swift; sourceTree = "<group>"; };
 		3B475D0A1DB47B8A0047D397 /* FileLogRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileLogRecorder.swift; sourceTree = "<group>"; };
 		3B475D0B1DB47B8A0047D397 /* LiteralLogFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiteralLogFormatter.swift; sourceTree = "<group>"; };
-		3B475D0C1DB47B8A0047D397 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		3B475D0C1DB47B8A0047D397 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		3B475D0D1DB47B8A0047D397 /* LogChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogChannel.swift; sourceTree = "<group>"; };
 		3B475D0E1DB47B8A0047D397 /* LogConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogConfiguration.swift; sourceTree = "<group>"; };
 		3B475D0F1DB47B8A0047D397 /* LogEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEntry.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 				3B475D091DB47B8A0047D397 /* FieldBasedLogFormatter.swift */,
 				3B475D0A1DB47B8A0047D397 /* FileLogRecorder.swift */,
 				3B475D0B1DB47B8A0047D397 /* LiteralLogFormatter.swift */,
-				3B475D0C1DB47B8A0047D397 /* Log.swift */,
+				3B475D0C1DB47B8A0047D397 /* Logger.swift */,
 				3B475D0D1DB47B8A0047D397 /* LogChannel.swift */,
 				3B475D0E1DB47B8A0047D397 /* LogConfiguration.swift */,
 				3B475D0F1DB47B8A0047D397 /* LogEntry.swift */,
@@ -387,7 +387,7 @@
 				3B475D271DB47B8A0047D397 /* BasicLogConfiguration.swift in Sources */,
 				3B2AFD551E562EEB00C115F7 /* BufferedLogRecorder.swift in Sources */,
 				3B475D311DB47B8A0047D397 /* FileLogRecorder.swift in Sources */,
-				3B475D331DB47B8A0047D397 /* Log.swift in Sources */,
+				3B475D331DB47B8A0047D397 /* Logger.swift in Sources */,
 				3B475D301DB47B8A0047D397 /* FieldBasedLogFormatter.swift in Sources */,
 				3B475D391DB47B8A0047D397 /* LogReceptacle.swift in Sources */,
 				3B475D351DB47B8A0047D397 /* LogConfiguration.swift in Sources */,

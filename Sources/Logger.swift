@@ -9,27 +9,29 @@
 import Dispatch
 import Foundation
 
+public let Log = Logger()
+
 /**
- `Log` is the primary public API for CleanroomLogger.
+ `Logger` is the primary public API for CleanroomLogger.
 
  If you wish to send a message to the log, you do so by calling the appropriae
  function provided by the appropriate `LogChannel` given the importance of your
  message.
 
  There are five levels of severity at which log messages can be recorded. Each
- level is represented by a read-only static variable maintained by the `Log`:
+ level is represented by a read-only static variable maintained by the `Logger`:
 
- - `Log.error` — The highest severity; something has gone wrong and a fatal error
+ - `error` — The highest severity; something has gone wrong and a fatal error
  may be imminent
 
- - `Log.warning` — Something appears amiss and might bear looking into before a
+ - `warning` — Something appears amiss and might bear looking into before a
  larger problem arises
 
- - `Log.info` — Something notable happened, but it isn't anything to worry about
+ - `info` — Something notable happened, but it isn't anything to worry about
 
- - `Log.debug` — Used for debugging and diagnostic information
+ - `debug` — Used for debugging and diagnostic information
 
- - `Log.verbose` - The lowest severity; used for detailed or frequently occurring
+ - `verbose` - The lowest severity; used for detailed or frequently occurring
  debugging and diagnostic information
 
  Each `LogChannel` can be used in one of three ways:
@@ -78,32 +80,32 @@ import Foundation
  It is the responsibility of the *application developer* to enable logging, which
  is done by calling the appropriate `Log.enable()` function.
  */
-public struct Log
+public final class Logger
 {
     /** The `LogChannel` that can be used to perform logging at the `.error`
      log severity level. Will be `nil` if logging hasn't yet been enabled, or
      if logging for the `.error` severity has not been configured. */
-    public private(set) static var error: LogChannel?
+    public private(set) var error: LogChannel?
 
     /** The `LogChannel` that can be used to perform logging at the `.warning`
      log severity level. Will be `nil` if logging hasn't yet been enabled, or
      if logging for the `.warning` severity has not been configured. */
-    public private(set) static var warning: LogChannel?
+    public private(set) var warning: LogChannel?
 
     /** The `LogChannel` that can be used to perform logging at the `.info`
      log severity level. Will be `nil` if logging hasn't yet been enabled, or
      if logging for the `.info` severity has not been configured. */
-    public private(set) static var info: LogChannel?
+    public private(set) var info: LogChannel?
 
     /** The `LogChannel` that can be used to perform logging at the `.debug`
      log severity level. Will be `nil` if logging hasn't yet been enabled, or
      if logging for the `.debug` severity has not been configured. */
-    public private(set) static var debug: LogChannel?
+    public private(set) var debug: LogChannel?
 
     /** The `LogChannel` that can be used to perform logging at the `.verbose`
      log severity level. Will be `nil` if logging hasn't yet been enabled, or
      if logging for the `.verbose` severity has not been configured. */
-    public private(set) static var verbose: LogChannel?
+    public private(set) var verbose: LogChannel?
 
     /**
      Enables logging using an `XcodeLogConfiguration`.
@@ -145,7 +147,7 @@ public struct Log
      - parameter filters: The `LogFilter`s to use when deciding whether a given
      `LogEntry` should be passed along for recording.
      */
-    public static func enable(minimumSeverity: LogSeverity = .info, debugMode: Bool = false, verboseDebugMode: Bool = false, stdStreamsMode: ConsoleLogConfiguration.StandardStreamsMode = .useAsFallback, mimicOSLogOutput: Bool = true, showCallSite: Bool = true, filters: [LogFilter] = [])
+    public func enable(minimumSeverity: LogSeverity = .info, debugMode: Bool = false, verboseDebugMode: Bool = false, stdStreamsMode: ConsoleLogConfiguration.StandardStreamsMode = .useAsFallback, mimicOSLogOutput: Bool = true, showCallSite: Bool = true, filters: [LogFilter] = [])
     {
         let config = XcodeLogConfiguration(minimumSeverity: minimumSeverity, debugMode: debugMode, verboseDebugMode: verboseDebugMode, stdStreamsMode: stdStreamsMode, mimicOSLogOutput: mimicOSLogOutput, showCallSite: showCallSite, filters: filters)
 
@@ -158,7 +160,7 @@ public struct Log
      - parameter configuration: The `LogConfiguration` to use for controlling
      the behavior of logging.
      */
-    public static func enable(configuration: LogConfiguration)
+    public func enable(configuration: LogConfiguration)
     {
         enable(configuration: [configuration])
     }
@@ -169,7 +171,7 @@ public struct Log
      - parameter configuration: An array of `LogConfiguration`s specifying
      the behavior of logging.
      */
-    public static func enable(configuration: [LogConfiguration])
+    public func enable(configuration: [LogConfiguration])
     {
         enable(receptacle: LogReceptacle(configuration: configuration))
     }
@@ -184,7 +186,7 @@ public struct Log
      - parameter receptacle: The `LogReceptacle` to use when creating the
      `LogChannel`s for the five severity levels.
      */
-    public static func enable(receptacle: LogReceptacle)
+    public func enable(receptacle: LogReceptacle)
     {
         enable(
             errorChannel: createLogChannel(severity: .error, receptacle: receptacle),
@@ -220,7 +222,7 @@ public struct Log
      - parameter verboseChannel: The `LogChannel` to use for logging messages
      with a `severity` of `.verbose`.
      */
-    public static func enable(errorChannel: LogChannel?, warningChannel: LogChannel?, infoChannel: LogChannel?, debugChannel: LogChannel?, verboseChannel: LogChannel?)
+    public func enable(errorChannel: LogChannel?, warningChannel: LogChannel?, infoChannel: LogChannel?, debugChannel: LogChannel?, verboseChannel: LogChannel?)
     {
         logLock.lock()
         if !didEnable {
@@ -234,8 +236,8 @@ public struct Log
         logLock.unlock()
     }
 
-    private static let logLock = NSLock()
-    private static var didEnable = false
+    private let logLock = NSLock()
+    private var didEnable = false
 
     /**
      Assuming CleanroomLogger has not yet been enabled, calling this function
@@ -250,7 +252,7 @@ public struct Log
      - important: If `Log.enable()` has already been called, calling
      `Log.neverEnable()` will have no effect.
      */
-    public static func neverEnable()
+    public func neverEnable()
     {
         enable(errorChannel: nil, warningChannel: nil, infoChannel: nil, debugChannel: nil, verboseChannel: nil)
     }
@@ -265,7 +267,7 @@ public struct Log
      severity; will be `nil` if `Log` is not configured to perform logging at
      that severity.
      */
-    public static func channel(severity: LogSeverity)
+    public func channel(severity: LogSeverity)
         -> LogChannel?
     {
         switch severity {
@@ -296,7 +298,7 @@ public struct Log
      captures the line number issuing the call to this function. You should
      not provide a value for this parameter.
      */
-    public static func trace(_ severity: LogSeverity, function: String = #function, filePath: String = #file, fileLine: Int = #line)
+    public func trace(_ severity: LogSeverity, function: String = #function, filePath: String = #file, fileLine: Int = #line)
     {
         channel(severity: severity)?.trace(function, filePath: filePath, fileLine: fileLine)
     }
@@ -320,7 +322,7 @@ public struct Log
      captures the line number issuing the call to this function. You should
      not provide a value for this parameter.
      */
-    public static func message(_ severity: LogSeverity, message: String, function: String = #function, filePath: String = #file, fileLine: Int = #line)
+    public func message(_ severity: LogSeverity, message: String, function: String = #function, filePath: String = #file, fileLine: Int = #line)
     {
         channel(severity: severity)?.message(message, function: function, filePath: filePath, fileLine: fileLine)
     }
@@ -347,12 +349,12 @@ public struct Log
      captures the line number issuing the call to this function. You should
      not provide a value for this parameter.
      */
-    public static func value(_ severity: LogSeverity, value: Any?, function: String = #function, filePath: String = #file, fileLine: Int = #line)
+    public func value(_ severity: LogSeverity, value: Any?, function: String = #function, filePath: String = #file, fileLine: Int = #line)
     {
         channel(severity: severity)?.value(value, function: function, filePath: filePath, fileLine: fileLine)
     }
 
-    private static func createLogChannel(severity: LogSeverity, receptacle: LogReceptacle)
+    private func createLogChannel(severity: LogSeverity, receptacle: LogReceptacle)
         -> LogChannel?
     {
         guard severity >= receptacle.minimumSeverity else {
